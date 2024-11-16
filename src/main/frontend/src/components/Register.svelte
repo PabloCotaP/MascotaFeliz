@@ -1,5 +1,16 @@
 <script>
     import axios from "axios";
+    import { onMount } from 'svelte';
+
+    let csrfToken = '';
+
+    onMount(() => {
+        // Obtener el token CSRF de la cookie
+        const csrfCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('XSRF-TOKEN='));
+        if (csrfCookie) {
+            csrfToken = csrfCookie.split('=')[1];
+        }
+    });
 
     let firstName = '';
     let lastName = '';
@@ -43,12 +54,19 @@
 
     const register = async () => {
         try {
+            console.log('Registrando...');
+            console.log('csrfToken:', csrfToken);
             const response = await axios.post('http://localhost:8081/api/users/register', {
                 firstName,
                 lastName,
                 email,
                 password,
                 phone,
+            }, {
+                headers: {
+                    'content-type': 'application/json',
+                    'X-XSRF-TOKEN': csrfToken,
+                },
             });
             console.log('Registro exitoso:', response.data);
             return response.data; // Devuelve datos de la respuesta si es necesario
