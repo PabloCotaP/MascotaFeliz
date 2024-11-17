@@ -25,6 +25,12 @@ export default defineConfig({
 					});
 				}
 			}
+		},
+		cors: {
+			origin:'http://localhost:8081',
+			methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+			allowedHeaders: ['Content-Type', 'Authorization' , "Access-Control-Allow-Origin"],
+			credentials: true
 		}
 	}
 });

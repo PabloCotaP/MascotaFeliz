@@ -1,23 +1,33 @@
 <script>
     import axios from "axios";
     import { onMount } from 'svelte';
+    axios.defaults.withCredentials = true;
 
     let csrfToken = '';
 
+    // Esta función obtiene el valor del token CSRF de las cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    // Esta función se ejecuta cuando el componente se monta
     onMount(() => {
-        // Obtener el token CSRF de la cookie
-        const csrfCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('XSRF-TOKEN='));
-        if (csrfCookie) {
-            csrfToken = csrfCookie.split('=')[1];
+        // Obtener el token CSRF desde la cookie
+        csrfToken = getCookie('XSRF-TOKEN');
+        if (!csrfToken) {
+            console.error('No se encontró el token CSRF');
         }
     });
 
-    let firstName = '';
-    let lastName = '';
+    let nombres = '';
+    let apellidos = '';
     let email = '';
     let password = '';
     let confirmPassword = '';
-    let phone = '';
+    let telefono = '';
 
     // Función para formatear el teléfono
     function formatPhoneNumber(value) {
@@ -42,7 +52,7 @@
 
         // Limitar a 10 dígitos
         if (inputValue.length <= 10) {
-            phone = formatPhoneNumber(inputValue);
+            telefono = formatPhoneNumber(inputValue);
         }
     }
 
@@ -55,13 +65,13 @@
     const register = async () => {
         try {
             console.log('Registrando...');
-            console.log('csrfToken:', csrfToken);
+            console.log('CSRF Token enviado:', csrfToken);
             const response = await axios.post('http://localhost:8081/api/users/register', {
-                firstName,
-                lastName,
+                nombres,
+                apellidos,
                 email,
                 password,
-                phone,
+                telefono,
             }, {
                 headers: {
                     'content-type': 'application/json',
@@ -84,7 +94,7 @@
             return;
         }
         // Validar el teléfono
-        if (!isValidPhone(phone)) {
+        if (!isValidPhone(telefono)) {
             alert('Por favor, ingrese un número de teléfono válido de 10 dígitos');
             return;
         }
@@ -120,7 +130,7 @@
                                 id="firstName"
                                 name="firstName"
                                 type="text"
-                                bind:value={firstName}
+                                bind:value={nombres}
                                 required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
                         />
@@ -137,7 +147,7 @@
                                 id="lastName"
                                 name="lastName"
                                 type="text"
-                                bind:value={lastName}
+                                bind:value={apellidos}
                                 required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500"
                         />
@@ -154,7 +164,7 @@
                                 id="phone"
                                 name="phone"
                                 type="tel"
-                                bind:value={phone}
+                                bind:value={telefono}
                                 on:input={handlePhoneInput}
                                 required
                                 maxlength="14"

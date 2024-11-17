@@ -1,16 +1,51 @@
 <script>
     import axios from "axios";
+    import {onMount} from 'svelte';
+    import {goto} from "$app/navigation";
+    import {changeAuth} from "../authContext.svelte.js";
+
+    axios.defaults.withCredentials = true;
+
+    let csrfToken = '';
+
+    // Esta función obtiene el valor del token CSRF de las cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    // Esta función se ejecuta cuando el componente se monta
+    onMount(() => {
+        // Obtener el token CSRF desde la cookie
+        csrfToken = getCookie('XSRF-TOKEN');
+        if (!csrfToken) {
+            console.error('No se encontró el token CSRF');
+        }
+    });
 
     let email = '';
     let password = '';
 
     const login = async () => {
         try {
+            console.log('Iniciando sesion...');
+            console.log('CSRF Token enviado:', csrfToken);
             const response = await axios.post('http://localhost:8081/api/users/login', {
                 email,
                 password,
+            }, {
+                headers: {
+                    'content-type': 'application/json',
+                    'X-XSRF-TOKEN': csrfToken,
+                },
             });
             console.log('Login exitoso:', response.data);
+            if (response.status === 200) {
+                changeAuth(true); // Cambia el estado de autenticación a verdadero
+                await goto('/'); // Redirige al usuario a la página principal
+            }
             return response.data; // Devuelve datos de la respuesta si es necesario
         } catch (error) {
             console.error('Error en el login:', error.response?.data?.message || error.message);

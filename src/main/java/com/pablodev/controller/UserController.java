@@ -24,6 +24,32 @@ public class UserController {
         }
     }
 
+    // Endpoint para loguear un usuario
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        try {
+            boolean isAuthenticated = userService.loginUser(user);
+            if (isAuthenticated) {
+                return ResponseEntity.ok().body("Usuario logueado correctamente");
+            } else {
+                return ResponseEntity.status(401).body("Credenciales incorrectas");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al loguear el usuario");
+        }
+    }
+
+    // Endpoint para cerrar la sesion de un usuario
+    @GetMapping(value = "/logout")
+    public ResponseEntity<?> logoutUser() {
+        try {
+            userService.logoutUser();
+            return ResponseEntity.ok("Sesión cerrada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al cerrar la sesión");
+        }
+    }
+
     // Endpoint de prueba para comprobar la conexion entre back y front
     @GetMapping(value = "/test")
     public ResponseEntity<?> testConnection() {
