@@ -13,6 +13,7 @@
 
     // Hacemos el estado reactivo usando $derived
     const isAuthenticated = $derived(getAuth().isAuthenticated);
+    const userRole = $derived(getAuth().role);
 
     async function logout() {
         try {
@@ -48,7 +49,13 @@
                        class="px-6 py-3.5 text-base font-medium text-black bg-emerald-600 hover:bg-emerald-800 focus:ring-3 focus:outline-none focus:bg-emerald-800 rounded-lg text-center">
                         Iniciar Sesión
                     </a>
-                {:else}
+                {:else if isAuthenticated && userRole === 'USER'}
+                    <Button on:click={handleLogout} class="px-6 py-3.5 text-base font-medium text-black bg-emerald-600 hover:bg-emerald-800 focus:ring-3 focus:outline-none focus:bg-emerald-800 rounded-lg text-center">Cerrar Sesión</Button>
+                {:else if isAuthenticated && userRole === 'ADMIN'}
+                    <a href="./Admin"
+                       class="px-6 py-3.5 text-base font-medium text-black bg-emerald-600 hover:bg-emerald-800 focus:ring-3 focus:outline-none focus:bg-emerald-800 rounded-lg text-center">
+                        Panel de Administración
+                    </a>
                     <Button on:click={handleLogout} class="px-6 py-3.5 text-base font-medium text-black bg-emerald-600 hover:bg-emerald-800 focus:ring-3 focus:outline-none focus:bg-emerald-800 rounded-lg text-center">Cerrar Sesión</Button>
                 {/if}
             </div>

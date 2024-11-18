@@ -1,6 +1,8 @@
 <script>
     import axios from "axios";
     import { onMount } from 'svelte';
+    import {changeAuth} from "../authContext.svelte.js";
+    import {goto} from "$app/navigation";
     axios.defaults.withCredentials = true;
 
     let csrfToken = '';
@@ -79,6 +81,8 @@
                 },
             });
             console.log('Registro exitoso:', response.data);
+            changeAuth(true); // Cambia el estado de autenticación a verdadero
+            await goto('/'); // Redirige al usuario a la página principal
             return response.data; // Devuelve datos de la respuesta si es necesario
         } catch (error) {
             console.error('Error en el registro:', error.response?.data?.message || error.message);

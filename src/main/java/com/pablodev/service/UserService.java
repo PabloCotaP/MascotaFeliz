@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -38,15 +41,18 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean loginUser(User user) {
+    public Map<String, Object> loginUser(User user) {
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("authenticated", true);
+            response.put("role", existingUser.getRole());
             System.out.println("Usuario logueado correctamente");
-            return true;
+            return response;
         } else {
             System.out.println("Error al loguear el usuario");
         }
-        return false;
+        return null;
     }
 
     public void logoutUser() {

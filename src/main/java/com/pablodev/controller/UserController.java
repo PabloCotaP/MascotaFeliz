@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -28,9 +30,9 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
-            boolean isAuthenticated = userService.loginUser(user);
-            if (isAuthenticated) {
-                return ResponseEntity.ok().body("Usuario logueado correctamente");
+            Map<String, Object> response = userService.loginUser(user);
+            if (response != null && (boolean) response.get("authenticated")) {
+                return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(401).body("Credenciales incorrectas");
             }
