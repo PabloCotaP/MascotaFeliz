@@ -1,5 +1,5 @@
 <script>
-    import PetCard from './PetCard.svelte';
+    import PetCard from "./PetCard.svelte";
 
     export let pets = [];
 </script>

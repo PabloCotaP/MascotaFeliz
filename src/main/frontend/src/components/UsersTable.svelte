@@ -1,56 +1,16 @@
-// UsersTable.svelte
 <script>
-    import axios from 'axios';
-    import StatCard from "./StatCard.svelte";
-    import UsersTable from "./UsersTable.svelte";
 
-    export let users = [];
-
-    let $state = {
+    let valuesUsersTable = $state({
         loading: false,
         error: null
-    };
-
-    async function handleDeleteUser(userId) {
-        if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-            $state.loading = true;
-            try {
-                await axios.delete(`http://localhost:8081/api/admin/users/${userId}`, {
-                    withCredentials: true
-                });
-                dispatch('refresh');
-            } catch (error) {
-                $state.error = 'Error al eliminar usuario';
-                console.error('Error eliminando usuario:', error);
-            } finally {
-                $state.loading = false;
-            }
-        }
-    }
-
-    async function handleToggleRole(userId, currentRole) {
-        $state.loading = true;
-        const newRole = currentRole === 'ADMIN' ? 'USER' : 'ADMIN';
-        try {
-            await axios.patch(`http://localhost:8081/api/admin/users/${userId}/role`, {
-                role: newRole
-            }, {
-                withCredentials: true
-            });
-            dispatch('refresh');
-        } catch (error) {
-            $state.error = 'Error al cambiar rol';
-            console.error('Error actualizando rol:', error);
-        } finally {
-            $state.loading = false;
-        }
-    }
+    });
+    let users = [];
 </script>
 
 <div class="overflow-x-auto">
-    {#if $state.error}
+    {#if valuesUsersTable.error}
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            {$state.error}
+            {valuesUsersTable.error}
         </div>
     {/if}
 
@@ -97,15 +57,13 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
-                            on:click={() => handleToggleRole(user.id, user.role)}
-                            disabled={$state.loading}
+                            disabled={valuesUsersTable.loading}
                             class="text-emerald-600 hover:text-emerald-900 mr-4 disabled:opacity-50"
                     >
                         Cambiar Rol
                     </button>
                     <button
-                            on:click={() => handleDeleteUser(user.id)}
-                            disabled={$state.loading}
+                            disabled={valuesUsersTable.loading}
                             class="text-red-600 hover:text-red-900 disabled:opacity-50"
                     >
                         Eliminar

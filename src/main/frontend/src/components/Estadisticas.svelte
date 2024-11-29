@@ -16,7 +16,7 @@
             <div class="text-gray-600">Años de Servicio</div>
         </div>
         <div class="text-center p-4">
-            <div class="text-4xl font-bold text-green-600 mb-2">1000+</div>
+            <div class="text-4xl font-bold text-green-600 mb-2">200+</div>
             <div class="text-gray-600">Donaciones Recibidas</div>
         </div>
     </div>

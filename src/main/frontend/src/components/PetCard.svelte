@@ -1,23 +1,12 @@
 <script>
-    import { Button } from 'flowbite-svelte';
+    import {Button} from "flowbite-svelte";
 
-    export let pet = {
-        id: '',
-        name: '',
-        age: 0,
-        type: '',
-        gender: '',
-        size: '',
-        image: ''
-    };
+    export let pet;
+    export let onclick = () => {};
 </script>
 
-<div class="bg-gray-400 rounded-lg shadow-md overflow-hidden">
-    <img
-            src={pet.image}
-            alt={pet.name}
-            class="w-full h-48 object-cover"
-    />
+<button type="button" class="bg-gray-400 rounded-lg shadow-md overflow-hidden cursor-pointer w-full" onclick={onclick}>
+    <img src={pet.image} alt={pet.name} class="w-full h-48 object-cover" />
     <div class="p-4">
         <h3 class="text-xl font-semibold mb-2">{pet.name}</h3>
         <div class="space-y-1 mb-4">
@@ -27,4 +16,4 @@
         </div>
         <Button color="green" class="w-full">Ver más</Button>
     </div>
-</div>
+</button>

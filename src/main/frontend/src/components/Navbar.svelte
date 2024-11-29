@@ -7,7 +7,6 @@
     const { links = [
         {name: 'Inicio', url: './'},
         {name: 'Mascotas', url: './Mascotas'},
-        {name: 'Donaciones', url: './Donaciones'},
         {name: 'Acerca de', url: './AcercaDe'},
     ]} = $props();
 

@@ -1,72 +1,49 @@
 <script>
-    import FilterSidebar from './FilterSidebar.svelte';
-    import SearchBar from './SearchBar.svelte';
-    import PetGrid from './PetGrid.svelte';
+    import axios from 'axios';
+    import PetCard from './PetCard.svelte';
+    import PetModal from './PetModal.svelte';
 
-    let pets = [
-        {
-            id: '1',
-            name: 'Max',
-            age: 2,
-            type: 'perro',
-            gender: 'Macho',
-            size: 'Mediano',
-            image: '../../images/pets/max.jpg'
-        },
-        {
-            id: '2',
-            name: 'Lucy',
-            age: 2,
-            type: 'gato',
-            gender: 'Hembra',
-            size: 'Chico',
-            image: '../../images/pets/lucy.jpg'
-        },
-        {
-            id: '3',
-            name: 'Waffle',
-            age: 4,
-            type: 'perro',
-            gender: 'Macho',
-            size: 'Grande',
-            image: '../../images/pets/waffle.jpg'
-        },
-        {
-            id: '4',
-            name: 'Araña',
-            age: 3,
-            type: 'gato',
-            gender: 'Macho',
-            size: 'Mediano',
-            image: '../../images/pets/arana.jpg'
-        },
-        {
-            id: '5',
-            name: 'Gundam',
-            age: 1,
-            type: 'perro',
-            gender: 'Macho',
-            size: 'Grande',
-            image: '../../images/pets/gundam.jpg'
-        },
-        {
-            id: '6',
-            name: 'Tesoro',
-            age: 6,
-            type: 'perro',
-            gender: 'Hembra',
-            size: 'Grande',
-            image: '../../images/pets/tesoro.jpg'
-        },
-    ];
+    let pets = $state([]);
+    let selectedPet = $state(null);
+    let showModal = $state(false);
+
+    $effect(async () => {
+        await loadPets();
+    });
+
+    async function loadPets() {
+        try {
+            const response = await axios.get('http://localhost:8081/api/pets', {
+                withCredentials: true
+            });
+            pets = response.data;
+        } catch (error) {
+            console.error('Error cargando mascotas:', error);
+        }
+    }
+
+    function openModal(pet) {
+        selectedPet = pet;
+        showModal = true;
+    }
+
+    function closeModal() {
+        showModal = false;
+    }
 </script>
 
 <div class="container mx-auto px-4 py-8">
     <div class="flex gap-8">
-
         <main class="flex-1">
-            <SearchBar />
-            <PetGrid {pets} />
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {#each pets as pet (pet.id)}
+                    <PetCard {pet} onclick={() => openModal(pet)} />
+                {/each}
+            </div>
         </main>
     </div>
 </div>
+
+{#if showModal}
+    <PetModal {selectedPet} onClose={closeModal} />
+{/if}

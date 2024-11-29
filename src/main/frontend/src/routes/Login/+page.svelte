@@ -2,7 +2,6 @@
     import Navbar from "../../components/Navbar.svelte";
     import Footer from "../../components/Footer.svelte";
     import Login from "../../components/Login.svelte";
-    import BotonPruebaConex from "../../components/BotonPruebaConex.svelte";
 </script>
 
 <svelte:head>

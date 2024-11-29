@@ -30,9 +30,9 @@ public class WebSecurityConfig {
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())*/
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("api/users/test", "/api/users/register", "/api/users/login", "/api/users/logout").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("api/users/**").permitAll()
+                        .requestMatchers("api/pets/**").permitAll()
+                        .requestMatchers("api/admin/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                         .anyRequest().authenticated()
                 );

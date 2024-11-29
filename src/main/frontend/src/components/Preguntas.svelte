@@ -27,7 +27,7 @@
                 ¿Como ayudar?
             </h3>
             <p class="text-gray-600">
-                Hay varias formas de ayudar, ya sea visitando el refugio o mediante una donación, toda ayuda es apreciada.
+                Hay varias formas de ayudar, ya sea visitando el refugio o mediante una donación, toda ayuda es apreciada. Si le interesa saber mas comuniquese al: 646 111 111
             </p>
         </div>
 
