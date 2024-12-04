@@ -33,6 +33,7 @@ public class WebSecurityConfig {
                         .requestMatchers("api/users/**").permitAll()
                         .requestMatchers("api/pets/**").permitAll()
                         .requestMatchers("api/admin/**").permitAll()
+                        .requestMatchers("api/adoption/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                         .anyRequest().authenticated()
                 );

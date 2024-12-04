@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.svelte";
 </script>
 
 <svelte:head>
-    <title>Acerca De - La Mascota Feliz</title>
+    <title>Panel de Administrador - La Mascota Feliz</title>
 </svelte:head>
 
 <Navbar/> <!-- Llama al componente Navbar que importe desde "../components/Navbar.svelte" -->

@@ -1,6 +1,6 @@
 <script>
     const equipo = [
-        { name: "Juan Lopez", role: "Fundador", image: '../../images/juan.jpg' },
+        { name: "Juan Lopez", role: "Fundador", image: '../../images/juanito.jpg' },
         { name: "Guadalupe Ramirez", role: "Entrenadora", image: '../../images/guadalupe.jpg' },
         { name: "Enrique Guerrero", role: "Veterinario", image: '../../images/enrique.jpg' }
     ];

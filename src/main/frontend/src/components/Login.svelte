@@ -44,8 +44,10 @@
             console.log('Login exitoso:', response.data);
             if (response.status === 200) {
                 const userRole = response.data.role; // Obtener el rol del usuario de la respuesta
+                const userId = response.data.id; // Obtener el ID del usuario de la respuesta
                 console.log('Rol del usuario:', userRole);
-                changeAuth(true, userRole); // Cambia el estado de autenticación a verdadero
+                console.log('ID del usuario:', userId);
+                changeAuth(true, userRole, userId); // Cambia el estado de autenticación a verdadero
                 await goto('/'); // Redirige al usuario a la página principal
             }
             return response.data; // Devuelve datos de la respuesta si es necesario

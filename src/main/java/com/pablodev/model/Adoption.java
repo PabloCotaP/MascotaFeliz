@@ -15,30 +15,28 @@ public class Adoption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "mascota_id", nullable = false)
+    private Long petId;
 
-    @ManyToOne
-    @JoinColumn(name = "pet_id", nullable = false)
-    private Pet pet;
+    @Column(name = "usuario_id", nullable = false)
+    private Long userId;
 
     @Column(name = "fecha_adopcion", nullable = false)
-    private LocalDate adoptionDate;
+    private LocalDate fechaAdopcion;
 
     @Column(name = "estado", length = 50, nullable = false)
     private String estado;
 
-    @Column(name = "motivo", length = 255, nullable = false)
-    private String motivo;
+    @Column(name = "motivo_adopcion", nullable = false)
+    private String motivoAdopcion;
 
     public Adoption() {}
 
-    public Adoption(User user, Pet pet, LocalDate adoptionDate, String estado, String motivo) {
-        this.user = user;
-        this.pet = pet;
-        this.adoptionDate = adoptionDate;
+    public Adoption(Long user, Long pet, LocalDate adoptionDate, String estado, String motivo) {
+        this.userId = user;
+        this.petId = pet;
+        this.fechaAdopcion = adoptionDate;
         this.estado = estado;
-        this.motivo = motivo;
+        this.motivoAdopcion = motivo;
     }
 }

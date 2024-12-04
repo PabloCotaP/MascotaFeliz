@@ -1,7 +1,7 @@
 <script>
 import Navbar from "../../components/Navbar.svelte";
 import Footer from "../../components/Footer.svelte";
-import PetCatalog from "../../components/PetCatalog.svelte";
+import Pets from "../../components/Pets.svelte";
 </script>
 
 <svelte:head>
@@ -9,5 +9,5 @@ import PetCatalog from "../../components/PetCatalog.svelte";
 </svelte:head>
 
 <Navbar/>
-<PetCatalog/>
+<Pets/>
 <Footer/>

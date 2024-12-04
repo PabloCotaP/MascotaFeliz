@@ -1,11 +1,13 @@
 package com.pablodev.controller;
 
 import com.pablodev.model.User;
+import com.pablodev.repository.UserRepository;
 import com.pablodev.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,6 +16,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    // Endpoint que extrae todos los usuarios
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.findAll();
+    }
 
     // Endpoint para registrar un usuario
     @PostMapping(value = "/register")

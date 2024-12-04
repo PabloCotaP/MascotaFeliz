@@ -1,8 +1,8 @@
 <script>
     import axios from "axios";
 
-    let users = $state([]);
-    let currentUser = $state(null);
+    let users1 = $state([]);
+    let currentUser1 = $state(null);
     let showUserModal = $state(false);
 
     $effect(() => {
@@ -14,14 +14,14 @@
             const response = await axios.get('http://localhost:8081/api/users', {
                 withCredentials: true
             });
-            users = response.data;
+            users1 = response.data;
         } catch (error) {
             console.error('Error cargando usuarios:', error);
         }
     }
 
     function openUserModal(user) {
-        currentUser = { ...user };
+        currentUser1 = { ...user };
         showUserModal = true;
     }
 
@@ -49,8 +49,8 @@
         </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-        {#each users as user}
-            {#if user.role !== 'ADMIN'}
+        {#each users1 as user}
+            {#if user.role === 'ADMIN'}
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900">{user.nombres} {user.apellidos}</div>
@@ -84,16 +84,16 @@
                 <h3 class="text-lg font-semibold">Información Personal</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <p><strong>Nombre:</strong> {currentUser.nombres} {currentUser.apellidos}</p>
+                        <p><strong>Nombre:</strong> {currentUser1.nombres} {currentUser1.apellidos}</p>
                     </div>
                     <div>
-                        <p><strong>Email:</strong> {currentUser.email}</p>
+                        <p><strong>Email:</strong> {currentUser1.email}</p>
                     </div>
                     <div>
-                        <p><strong>Teléfono:</strong> {currentUser.telefono}</p>
+                        <p><strong>Teléfono:</strong> {currentUser1.telefono}</p>
                     </div>
                     <div>
-                        <p><strong>Rol:</strong> {currentUser.role}</p>
+                        <p><strong>Rol:</strong> {currentUser1.role}</p>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 <script>
     import axios from 'axios';
 
-    // Definir las propiedades del componente usando $props()
     let { showEditModal, currentPet, onPetEdited } = $props();
 
     function handleClose() {

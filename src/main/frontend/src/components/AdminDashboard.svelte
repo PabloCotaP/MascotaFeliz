@@ -5,6 +5,8 @@
     import StatCard from "./StatCard.svelte";
     import PetsTable from "./PetsTable.svelte";
     import {goto} from "$app/navigation";
+    import AdoptionTable from "./AdoptionTable.svelte";
+    import AdminTable from "./AdminTable.svelte";
     let valuesAdmin = $state({
         activeTab: 'usuarios',
         stats: {
@@ -56,11 +58,9 @@
     <!-- Contenido Principal -->
     <main class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <!-- Tarjetas de Estadísticas -->
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 mb-6">
             <StatCard title="Total Usuarios" value={valuesAdmin.stats.totalUsers} icon="users" />
             <StatCard title="Total Mascotas" value={valuesAdmin.stats.totalPets} icon="bone" />
-            <StatCard title="Adopciones Pendientes" value={valuesAdmin.stats.pendingAdoptions} icon="clock" />
-            <StatCard title="Adopciones Completadas" value={valuesAdmin.stats.totalDonations} icon="like" />
         </div>
 
         <!-- Tabs de Navegación -->
@@ -71,6 +71,12 @@
                         onclick={() => setActiveTab('usuarios')}
                 >
                     Usuarios
+                </button>
+                <button
+                        class={`px-3 py-2 text-sm font-medium rounded-md ${valuesAdmin.activeTab === 'admins' ? 'bg-emerald-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                        onclick={() => setActiveTab('admins')}
+                >
+                    Empleados
                 </button>
                 <button
                         class={`px-3 py-2 text-sm font-medium rounded-md ${valuesAdmin.activeTab === 'mascotas' ? 'bg-emerald-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
@@ -91,14 +97,12 @@
         <div class="bg-white shadow rounded-lg p-6">
             {#if valuesAdmin.activeTab === 'usuarios'}
                 <UsersTable/>
+            {:else if valuesAdmin.activeTab === 'admins'}
+                <AdminTable/>
             {:else if valuesAdmin.activeTab === 'mascotas'}
                 <PetsTable />
-                <!--
-            {:else if $state.activeTab === 'donaciones'}
-                <DonationsTable />
-            {:else if $state.activeTab === 'adopciones'}
-                <AdoptionsTable />
-                -->
+            {:else if valuesAdmin.activeTab === 'adopciones'}
+                <AdoptionTable/>
             {/if}
         </div>
     </main>
